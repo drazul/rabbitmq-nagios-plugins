@@ -99,11 +99,12 @@ class RabbitAllQueuesCheck(BaseRabbitCheck):
                 result = self.parseResult(data)
 
                 self.setPerformanceData(data, result, queue["name"])
-                print result
+
         except Exception as e:
             return Response(UNKNOWN, "Error occurred:" + str(e))
 
+        return result
 
 if __name__ == "__main__":
     obj = RabbitAllQueuesCheck()
-    obj.check()
+    obj.check().exit()
