@@ -45,11 +45,11 @@ class RabbitAllQueuesCheck(BaseRabbitCheck):
     def parseResult(self, data):
             if data.get('messages'):
                     result = self.response_for_value(data['messages'])
-                    result.message = ' found ' + str(data['messages']) + ' messages'
+                    result.message = ' found ' + str(data['messages']) + ' messages ' + str(data['name'])
                     self.rabbit_note = ' found ' + str(data['messages']) + ' messages'
             else:
                     result = self.response_for_value(0)
-                    result.message = ' No messages found in queue'
+                    result.message = ' No messages found in queue ' + str(data['name'])
                     self.rabbit_note = result.message
             return result
 
@@ -100,11 +100,11 @@ class RabbitAllQueuesCheck(BaseRabbitCheck):
 
                 self.setPerformanceData(data, result, queue["name"])
 
+                print result
         except Exception as e:
             return Response(UNKNOWN, "Error occurred:" + str(e))
 
-        return result
 
 if __name__ == "__main__":
     obj = RabbitAllQueuesCheck()
-    obj.check().exit()
+    obj.check()
